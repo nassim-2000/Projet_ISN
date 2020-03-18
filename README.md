@@ -1,2 +1,2 @@
-# ProjetISN
-Projet de terminale SI option ISN (informatique sciences du numérique)
+# Projet ISN
+Projet de terminale option ISN (informatique sciences du numérique)
