@@ -1,0 +1,121 @@
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title> Test de daltonisme </title>
+	<br><p style="font-size:2.8em ; text-align : center ; font-weight:bold">TEST DE DALTONISME </p>
+
+	<body>
+		<p style="font-size:1.8em ; text-align : center ; font-weight:bold">Tapez le nombre que vous voyez</p>
+		<p style="font-size:1em ; text-align : center ; font-weight:bold">(Saisissez "0" si vous ne voyez aucun nombre)</p>
+		<p style="text-align : center"><img id="image" src="img/2.jpg"/></p>
+		<p style="font-size:1em ; text-align : center ; color:'red'>< type="text" id="rapport" value=""></p>
+		<p style="text-align: center">
+			<input type="text"  value="" id="val_saisie" />
+			<button onclick="save()">OK</button>
+			<p style="font-size:1em ; text-align : center ; color:'red'>< type="text" id="erreur" value=""></p></p>
+		</body>
+		<script type="text/javascript">
+
+		tab_val_saisie = new Array;
+		rapport = new Array;
+		BONNE_REP = 0;
+		MAUVAISE_REP = 1;
+		ANOMALIE = 2;
+		var current_image = 2;
+
+		var reponses = [
+			['8','3', 'Déficience rouge-vert'],
+			['29','70','Déficience rouge-vert'],
+			['5','2','Déficience rouge-vert'],
+			['2','0','dischromatie'],
+			['6','0','dischromatie'],
+			['97','0','dischromatie'],
+			['26','6','protanopie'],
+			['42','2','protanopie'],
+			['35','5','protanopie'],
+			['96','6','protanopie']
+		];
+
+		fin_test = false;
+
+		/*nettoyage du tableau*/
+		function cleanArray(array) {
+			var i, j, len = array.length, out = [], obj = {};
+			for (i = 0; i < len; i++){
+				obj[array[i]] = 0;
+			}
+			for (j in obj){
+				out.push(j);
+			}
+			return out;
+		}
+
+		/*fonction permettant de recupérer la saisie*/
+		function save(){
+			var info_erreur = document.getElementById("erreur");
+			var info_rapport = document.getElementById("rapport");
+			var val_saisie =document.getElementById("val_saisie").value;
+
+			/*si test n'est pas fini*/
+			if (!fin_test){
+				/*si au moins un caractère est saisi*/
+				if (val_saisie.length>0){
+					tab_val_saisie.push(val_saisie);		//inclure valeur saisie dans le tableau des saisies
+					document.getElementById("val_saisie").value ="";		//vider la saisie
+
+					current_image++;	//incrémentation de current_image afin de passer à l'image suivante
+					console.log("attr : " +document.getElementById("image").src);
+					console.log(current_image + ".jpg");
+					document.getElementById("image").src= "img/" + current_image + ".jpg";
+					msg_erreur ="";
+
+				}
+				/*si aucun caractère n'est saisi*/
+				else{
+					msg_erreur = "Erreur : vous devez saisir la réponse";
+				}
+
+				info_erreur.textContent = msg_erreur;		//affichage du message d'erreur
+
+				if(current_image == 11){
+					fin_test = true;
+					var nombre_erreur = 0;
+
+					alert('Le test est terminé !');		//on affiche que le test est terminé
+
+					/*boucle comparaison des valeurs saisies avec valeurs définies*/
+					for(i=0;i<9;i++){
+						/*si valeur saisie est différente de la bonne reponse*/
+						if (tab_val_saisie[i] != reponses[i][BONNE_REP]){
+							/*si valeur saisie est identique à la mauvaise reponse*/
+							if (tab_val_saisie[i] == reponses[i][MAUVAISE_REP]){
+								rapport.push(reponses[i][ANOMALIE]);		//inclure contenu de l'ANOMALIE dans le tableau rapport
+								/*si aucune correspondance*/
+							}else{
+								rapport.push('Probleme de vue');		//inclure "problème de vue" dans le tableau rapport
+							}
+						}
+					}
+					//
+					rapport = cleanArray(rapport);
+					var rapport_text = "Il semblerait que vous souffrer de ";
+
+					/*Boucle permettant de constituer grammaticalement la phrase qui rend le rapport*/
+					for(i=0;i<rapport.length;i++){
+						rapport_text += rapport[i];
+						if(i==(rapport.length-2)){
+							rapport_text += ' et de ';
+						}
+						else if(i==(rapport.length-3)){
+							rapport_text += ', de ';
+						}
+					}
+					rapport_text += '.';
+					info_rapport.textContent = rapport_text;		//affichage du rapport
+				}
+			}
+		}
+		</script>
+	</head>
+	</html>

@@ -1,0 +1,90 @@
+<html>
+<head>
+	<title> Test de vue </title>
+	<script type="text/javascript">
+
+	fin_test = false;
+	tab_reponses = new Array;
+	tab_val_saisi = new Array;
+	nb_erreur = 0;
+	first_start = true;
+
+	function main (){
+		var val_saisi = document.getElementById('zone_saisie').value;		//recupere valeur saisie
+		/*si première fois lancée la page*/
+		if(first_start) {
+			changer_lettre();		//appel à la fonction changer_lettre
+			first_start=false;
+		}
+
+		/*si test n'est pas fini*/
+		if (!fin_test){
+			/*si au moins un caractère est saisi*/
+			if (val_saisi.length>0){
+				tab_val_saisi.push(val_saisi);		//inclure la valeur dans le tableau
+				diminuer_taille();		//appel à la fonction diminuer_taille
+				changer_lettre();		//appel à la fonction changer_lettre
+			}
+		}
+		else{
+			/*----(DEBUG)---affichage des 2 tableaux---
+			console.log(tab_reponses);
+			console.log(tab_val_saisi);
+			----------------------------------------*/
+			/*boucle comparaison des valeurs saisies et définies (comparaison des 2 tableaux)*/
+			for(i=0;i<tab_val_saisi.length;i++) {
+				/*si différence entres valeurs*/
+				if (tab_reponses[i] != tab_val_saisi[i]) {
+					nb_erreur++;		//incrémentation variable nb_erreur
+				}
+				/*affichage du rapport de comparaison*/
+				document.getElementById("rapport").textContent = 'Vous avez fait '+ nb_erreur + ' erreur(s).';
+			}
+			document.getElementById('zone_saisie').value ="";
+		}
+		/*fonction permettant de diminuer la taille*/
+		function diminuer_taille(){
+			/*recupère la taille du caractère et le modifie*/
+			var taille_min = 0.8;
+			var taille_actuel = document.getElementById("text").style.fontSize;
+			taille_actuel = taille_actuel.replace("em","");
+			taille_actuel = taille_actuel *1;
+
+			/*si taille du caractère est supérieure à celle de la taille minimale prédéfinie*/
+			if(taille_actuel>taille_min){
+				taille_actuel = taille_actuel - 0.4;		//Réduction de la taille
+			}
+			/*si taille du caractère n'est pas supérieure à celle de la taille minimale*/
+			else{
+				fin_test = true;
+			}
+			/*(à améliorer)-appliquer le style et taille du caractère*/
+			document.getElementById("text").style.fontSize = ""+ taille_actuel +"em";
+		}
+
+		/*fonction permettant de changer la lettre aléatoirement*/
+		function changer_lettre(){
+			var lettre = String.fromCharCode(Math.floor(Math.random() * 26)+65);	//choix de la lettre aléatoire
+			var p = document.getElementById("text");
+			tab_reponses.push(lettre);		//inclure la lettre aléatoire dans le tableau réponses
+			p.textContent = lettre;		//affichage de la lettre aléatoire
+		}
+	}
+
+
+</script>
+
+</head>
+<body onload="main()">
+	<p style="font-size:5.2em	 ; text-align: center">Quelle est la lettre suivante ?</p>
+	<div style="margin : auto; height : 40%; width : 40%; border : 1px solid white; vertical-align : middle;">
+		<p style="font-size:5.2em ; text-align: center" id="text"></p>
+	</div>
+
+	<p style="text-align: center">
+		<input id="zone_saisie" type="text" value="" />
+		<input type="button" id="btn_ok" onclick="main()" value="Ok"/>
+		<p style="font-size:1em ; text-align: center; color : red" id="rapport">
+		</p>
+	</p>
+	</html>

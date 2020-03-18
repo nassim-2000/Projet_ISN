@@ -1,0 +1,35 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<br><title>	TEST DE VUE ET DIAGNOSTIC DE DALTONISME </title>
+</head>
+<body>
+	<p style="font-size:3em ; text-align : center ; font-weight:bold">TEST DE VUE ET DIAGNOSTIC DE DALTONISME</p>
+
+	<table style="margin:auto;" >
+		<tr>
+			<td><img src="dalto.jpg" style="width:400px; height:300px; border : 1px black solid;"></td>
+			<td><img src="vue.jpeg" style="width:400px; height: 300px; border : 1px black solid;"></td>
+		</tr>
+		<tr>
+
+			<td><input type="button" style="width:400px;" value=" Quel daltonien je suis ?" onclick="redirect('page_test_daltonisme.html')"></td>
+			<td><input type="button" style="width:400px;" value="Je teste ma vue" onclick="redirect('page_vue.html')"></td>
+
+		</tr>
+	</table>
+
+	<br><p style="font-size:0.8em ; text-align : center ; font-weight:bold">Nous vous rappelons que ces tests sont conçus qu'en vue de donner une idée générale mais en aucun cas remplace la visite chez un professionnel de la vision qui sera seul, apte a mener un examen complet médical.
+	</p>
+
+</body>
+<script type="text/javascript">
+
+//fonction de redirection sur autres pages
+function redirect(lien)
+{
+	document.location.href=lien;
+}
+
+</script>
+</html>
